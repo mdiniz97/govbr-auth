@@ -1,7 +1,7 @@
 {
   "name": "govbr-auth",
   "version": "0.1.0",
-  "description": "Unofficial GOV.BR authentication library for Node.js applications",
+  "description": "Biblioteca de autenticação GOV.BR não oficial para aplicações Node.js | Unofficial GOV.BR authentication library for Node.js applications",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -29,9 +29,12 @@
   },
   "keywords": [
     "govbr",
+    "autenticação",
+    "node.js",
     "authentication",
     "oauth",
     "openid-connect",
+    "brasil",
     "brazil"
   ],
   "author": "",
