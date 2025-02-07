@@ -1,6 +1,6 @@
 {
   "name": "govbr-auth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Biblioteca de autenticação GOV.BR não oficial para aplicações Node.js | Unofficial GOV.BR authentication library for Node.js applications",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
