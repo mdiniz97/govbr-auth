@@ -44,8 +44,8 @@ export class AuthService {
     this.config = {
       ...config,
       environment: config.environment || 'production',
-      scopes: config.scopes || [...DEFAULT_SCOPES]
-    };
+      scopes: config.scopes || DEFAULT_SCOPES
+    } as Required<GovBRConfig>;
 
     this.endpoints = ENDPOINTS[this.config.environment];
     this.client = axios.create({
@@ -112,7 +112,7 @@ export class AuthService {
   public async getTokens(code: string, codeVerifier: string): Promise<TokenResponse> {
     const basicAuth = base64URLEncode(`${this.config.clientId}:${this.config.clientSecret}`);
 
-    const response: AxiosResponse<TokenResponse> = await this.client.post(
+    const response: AxiosResponse<TokenResponse> = await this.client.post<TokenResponse>(
       this.endpoints.token,
       new URLSearchParams({
         grant_type: 'authorization_code',
@@ -139,11 +139,14 @@ export class AuthService {
    * @returns Promise with user information / Promise com informações do usuário
    */
   public async getUserInfo(accessToken: string): Promise<UserInfo> {
-    const response: AxiosResponse<UserInfo> = await this.client.get(this.endpoints.userinfo, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    const response: AxiosResponse<UserInfo> = await this.client.get<UserInfo>(
+      this.endpoints.userinfo,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
       }
-    });
+    );
 
     return response.data;
   }
@@ -160,15 +163,14 @@ export class AuthService {
     accessToken: string,
     cpf: string
   ): Promise<ConfiabilidadeNivel[]> {
-    const response: AxiosResponse<ConfiabilidadeNivel[]> = await this.client.get(
-      `${this.endpoints.confiabilidades}/contas/${cpf}/niveis`,
-      {
-        params: { 'response-type': 'ids' },
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+    const response: AxiosResponse<ConfiabilidadeNivel[]> = await this.client.get<
+      ConfiabilidadeNivel[]
+    >(`${this.endpoints.confiabilidades}/contas/${cpf}/niveis`, {
+      params: { 'response-type': 'ids' },
+      headers: {
+        Authorization: `Bearer ${accessToken}`
       }
-    );
+    });
 
     return response.data;
   }
@@ -185,15 +187,14 @@ export class AuthService {
     accessToken: string,
     cpf: string
   ): Promise<ConfiabilidadeSelo[]> {
-    const response: AxiosResponse<ConfiabilidadeSelo[]> = await this.client.get(
-      `${this.endpoints.confiabilidades}/contas/${cpf}/confiabilidades`,
-      {
-        params: { 'response-type': 'ids' },
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+    const response: AxiosResponse<ConfiabilidadeSelo[]> = await this.client.get<
+      ConfiabilidadeSelo[]
+    >(`${this.endpoints.confiabilidades}/contas/${cpf}/confiabilidades`, {
+      params: { 'response-type': 'ids' },
+      headers: {
+        Authorization: `Bearer ${accessToken}`
       }
-    );
+    });
 
     return response.data;
   }
